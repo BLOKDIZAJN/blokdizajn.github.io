@@ -28,34 +28,66 @@ body {
 /* --- HERO --- */
 .hero { height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; width: 100%; }
 .technical-mark { font-size: 0.7rem; font-weight: 800; color: var(--brand-red); letter-spacing: 4px; margin-bottom: 10px; }
-.hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; letter-spacing: -2px; }
+.hero h1 { font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; }
 
-/* --- PRODUCT GRID & HOVER CTA --- */
+/* --- PRODUCT GRID --- */
 .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; padding: 40px 20px; max-width: 1400px; margin: 0 auto; }
-.product-item { background: var(--card-bg); border: 1px solid var(--border); position: relative; overflow: hidden; cursor: pointer; transition: 0.3s; }
+
+.product-item { 
+    background: var(--card-bg); 
+    border: 1px solid var(--border); 
+    position: relative; 
+    overflow: hidden; 
+    cursor: pointer; 
+    transition: 0.3s; 
+}
+
 .product-item img { width: 100%; display: block; transition: transform 0.5s ease; }
 
+/* HOVER OVERLAY CTA */
 .product-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 51, 51, 0.85); /* Red Overlay */
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: 0.3s; z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 51, 51, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s ease;
+    z-index: 2;
 }
-.cta-text { color: white; border: 2px solid white; padding: 10px 20px; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; }
+
+.cta-text {
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    border: 1px solid #fff;
+    padding: 10px 20px;
+}
 
 .product-item:hover .product-overlay { opacity: 1; }
-.product-item:hover img { transform: scale(1.1); }
-.product-info { padding: 20px; text-align: center; border-top: 1px solid var(--border); position: relative; z-index: 3; background: var(--card-bg); }
+.product-item:hover img { transform: scale(1.05); }
+.product-item:hover { border-color: var(--brand-red); }
+
+.product-info { padding: 20px; text-align: center; border-top: 1px solid var(--border); }
 
 /* --- MODAL --- */
 .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
 .modal-content { background: var(--card-bg); border: 1px solid var(--border); width: 95%; max-width: 1100px; position: relative; }
 .modal-body { display: flex; min-height: 500px; }
 .modal-images { flex: 1.1; background: #000; position: relative; overflow: hidden; display: flex; align-items: center; }
-.image-track { display: flex; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.image-track { display: flex; transition: 0.4s ease; }
 .image-track img { width: 100%; flex-shrink: 0; object-fit: contain; }
+
+.image-nav { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; z-index: 10; }
+.nav-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+
 .modal-details { flex: 0.9; padding: 40px; border-left: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
-.modal-price-tag { font-size: 2rem; font-weight: 800; color: var(--brand-red); margin: 10px 0; }
+.modal-price-tag { font-size: 2rem; font-weight: 800; color: var(--brand-red); margin: 15px 0; }
 
 .color-dots-grid { display: flex; gap: 10px; margin: 15px 0; }
 .color-dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; }
@@ -65,8 +97,7 @@ body {
 .size-btn { background: transparent; border: 1px solid var(--border); color: #fff; padding: 12px 18px; cursor: pointer; font-weight: 800; }
 .size-btn.active { background: #fff; color: #000; }
 
-.btn-submit { background: var(--brand-red); color: #fff; border: none; padding: 20px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.2s; }
-.btn-submit:hover { opacity: 0.9; }
+.btn-submit { background: var(--brand-red); color: #fff; border: none; padding: 20px; font-weight: 800; cursor: pointer; width: 100%; }
 
 /* --- FORMS --- */
 .order-section { display: none; padding: 100px 20px; }

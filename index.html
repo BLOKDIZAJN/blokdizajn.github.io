@@ -32,9 +32,7 @@
         </div>
     </section>
 
-    <main class="content-wrapper">
-        <div class="product-grid" id="product-container"></div>
-    </main>
+    <div class="product-grid" id="product-container"></div>
 
     <div id="product-modal" class="modal">
         <div class="modal-content">
@@ -51,23 +49,19 @@
                     <h2 id="modal-title"></h2>
                     <p id="modal-price" class="modal-price-tag"></p>
                     
-                    <div class="select-group">
-                        <label data-i18n="select_color">BOJA:</label>
-                        <div id="color-dots" class="color-dots-grid"></div>
+                    <label data-i18n="select_color">BOJA:</label>
+                    <div id="color-dots" class="color-dots-grid"></div>
+                    
+                    <label data-i18n="select_size">VELIČINA:</label>
+                    <div class="size-btns-grid">
+                        <button class="size-btn" onclick="pickSize('S')">S</button>
+                        <button class="size-btn" onclick="pickSize('M')">M</button>
+                        <button class="size-btn" onclick="pickSize('L')">L</button>
+                        <button class="size-btn" onclick="pickSize('XL')">XL</button>
+                        <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
                     </div>
                     
-                    <div class="select-group">
-                        <label data-i18n="select_size">VELIČINA:</label>
-                        <div id="size-options" class="size-btns-grid">
-                            <button class="size-btn" onclick="pickSize('S')">S</button>
-                            <button class="size-btn" onclick="pickSize('M')">M</button>
-                            <button class="size-btn" onclick="pickSize('L')">L</button>
-                            <button class="size-btn" onclick="pickSize('XL')">XL</button>
-                            <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
-                        </div>
-                    </div>
-                    
-                    <button class="btn-submit" onclick="openFinalForm()" data-i18n="confirm_selection">DALJE</button>
+                    <button class="btn-submit" style="margin-top: 20px;" onclick="openFinalForm()" data-i18n="confirm_selection">DALJE</button>
                 </div>
             </div>
         </div>

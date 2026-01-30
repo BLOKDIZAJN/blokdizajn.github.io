@@ -14,8 +14,8 @@ const translations = {
     en: { 
         hero_subtitle: "LIMITED DROP // EDITION 01", 
         view_more: "VIEW DETAILS",
-        select_color: "COLOR_SPEC:", 
-        select_size: "SIZE_INDEX:", 
+        select_color: "COLOR:", 
+        select_size: "SIZE:", 
         confirm_selection: "CONTINUE", 
         order_title: "SHIPPING MANIFEST",
         confirm: "CONFIRM ORDER",
@@ -43,7 +43,9 @@ async function fetchProducts() {
             return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], colors:p[8], numImages:parseInt(p[9]) };
         });
         render();
-    } catch (e) { console.error("Failed to load products", e); }
+    } catch (e) {
+        console.error("Could not load products.txt", e);
+    }
 }
 
 function render() {
@@ -55,13 +57,14 @@ function render() {
         card.className = 'product-item';
         card.onclick = () => openModal(p.folder);
         
+        // This is where the overlay is injected
         card.innerHTML = `
             <div class="product-overlay">
                 <span class="cta-text">${translations[currentLang].view_more}</span>
             </div>
             <img src="products/${p.folder}/${firstColor}_0.png">
             <div class="product-info">
-                <h3>${currentLang==='sr' ? p.nSr : p.nEn}</h3>
+                <h3>${currentLang === 'sr' ? p.nSr : p.nEn}</h3>
                 <p style="color:var(--brand-red); font-weight:800">${p.price}</p>
             </div>`;
         container.appendChild(card);
@@ -70,7 +73,6 @@ function render() {
 
 function setLanguage(l) {
     currentLang = l;
-    // UI Update logic
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${l}`));
     
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -83,7 +85,7 @@ function setLanguage(l) {
         if (translations[l][key]) el.placeholder = translations[l][key];
     });
 
-    render(); // Re-render to update product names and overlay text
+    render(); 
 }
 
 function openModal(folder) {
@@ -92,11 +94,12 @@ function openModal(folder) {
     selectedSize = '';
     currentSlide = 0;
     
-    document.getElementById('modal-title').textContent = currentLang==='sr' ? activeProduct.nSr : activeProduct.nEn;
+    document.getElementById('modal-title').textContent = currentLang === 'sr' ? activeProduct.nSr : activeProduct.nEn;
     document.getElementById('modal-price').textContent = activeProduct.price;
     
     updateModalImages();
     updateColorDots();
+    
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('product-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -110,7 +113,12 @@ function updateColorDots() {
         const dot = document.createElement('div');
         dot.className = `color-dot ${color === selectedColor ? 'active' : ''}`;
         dot.style.backgroundColor = color === 'sand' ? '#c2b280' : (color === 'white' ? '#fff' : color);
-        dot.onclick = (e) => { e.stopPropagation(); selectedColor = color; updateColorDots(); updateModalImages(); };
+        dot.onclick = (e) => { 
+            e.stopPropagation(); 
+            selectedColor = color; 
+            updateColorDots(); 
+            updateModalImages(); 
+        };
         container.appendChild(dot);
     });
 }
