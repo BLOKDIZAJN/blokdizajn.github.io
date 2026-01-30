@@ -1,6 +1,7 @@
 const translations = {
     sr: { 
         hero_subtitle: "LIMITIRANA SERIJA // EDICIJA 01", 
+        view_more: "PRIKAŽI VIŠE",
         select_color: "BOJA:", 
         select_size: "VELIČINA:", 
         confirm_selection: "DALJE", 
@@ -12,6 +13,7 @@ const translations = {
     },
     en: { 
         hero_subtitle: "LIMITED DROP // EDITION 01", 
+        view_more: "VIEW DETAILS",
         select_color: "COLOR_SPEC:", 
         select_size: "SIZE_INDEX:", 
         confirm_selection: "CONTINUE", 
@@ -33,13 +35,15 @@ let currentSlide = 0;
 document.addEventListener('DOMContentLoaded', fetchProducts);
 
 async function fetchProducts() {
-    const response = await fetch('products.txt');
-    const text = await response.text();
-    allProducts = text.split('\n').filter(l => l.trim()).map(line => {
-        const p = line.split('|').map(x => x.trim());
-        return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], colors:p[8], numImages:parseInt(p[9]) };
-    });
-    render();
+    try {
+        const response = await fetch('products.txt');
+        const text = await response.text();
+        allProducts = text.split('\n').filter(l => l.trim()).map(line => {
+            const p = line.split('|').map(x => x.trim());
+            return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], colors:p[8], numImages:parseInt(p[9]) };
+        });
+        render();
+    } catch (e) { console.error("Failed to load products", e); }
 }
 
 function render() {
@@ -50,31 +54,36 @@ function render() {
         const card = document.createElement('div');
         card.className = 'product-item';
         card.onclick = () => openModal(p.folder);
-        card.innerHTML = `<img src="products/${p.folder}/${firstColor}_0.png" style="width:100%">
-                          <h3 style="margin-top:10px">${currentLang==='sr' ? p.nSr : p.nEn}</h3>
-                          <p style="color:var(--brand-red); font-weight:800">${p.price}</p>`;
+        
+        card.innerHTML = `
+            <div class="product-overlay">
+                <span class="cta-text">${translations[currentLang].view_more}</span>
+            </div>
+            <img src="products/${p.folder}/${firstColor}_0.png">
+            <div class="product-info">
+                <h3>${currentLang==='sr' ? p.nSr : p.nEn}</h3>
+                <p style="color:var(--brand-red); font-weight:800">${p.price}</p>
+            </div>`;
         container.appendChild(card);
     });
 }
 
 function setLanguage(l) {
     currentLang = l;
-    // Update button visual state
+    // UI Update logic
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${l}`));
     
-    // Update static text content
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[l][key]) el.textContent = translations[l][key];
     });
 
-    // Update placeholders
     document.querySelectorAll('[data-i18n-ph]').forEach(el => {
         const key = el.getAttribute('data-i18n-ph');
         if (translations[l][key]) el.placeholder = translations[l][key];
     });
 
-    render(); // Re-render products to update names
+    render(); // Re-render to update product names and overlay text
 }
 
 function openModal(folder) {
@@ -100,8 +109,8 @@ function updateColorDots() {
         const color = c.trim().toLowerCase();
         const dot = document.createElement('div');
         dot.className = `color-dot ${color === selectedColor ? 'active' : ''}`;
-        dot.style.backgroundColor = color === 'sand' ? '#c2b280' : color;
-        dot.onclick = () => { selectedColor = color; updateColorDots(); updateModalImages(); };
+        dot.style.backgroundColor = color === 'sand' ? '#c2b280' : (color === 'white' ? '#fff' : color);
+        dot.onclick = (e) => { e.stopPropagation(); selectedColor = color; updateColorDots(); updateModalImages(); };
         container.appendChild(dot);
     });
 }
