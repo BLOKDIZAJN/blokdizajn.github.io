@@ -4,22 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BLOKDIZAJN | Industrial Automotive Wear</title>
-    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body class="industrial-theme">
+<body>
 
     <header class="main-header">
         <div class="header-container">
-            <div class="logo-wrapper" onclick="resetPage()">
-                <img src="logo.png" alt="BLOKDIZAJN" class="nav-logo">
-            </div>
-            <div class="header-right">
-                <div class="lang-switcher">
-                    <button id="lang-sr" onclick="setLanguage('sr')" class="lang-btn">SR</button>
-                    <button id="lang-en" onclick="setLanguage('en')" class="lang-btn">EN</button>
-                </div>
+            <img src="logo.png" alt="BLOKDIZAJN" class="nav-logo" onclick="location.reload()">
+            <div class="lang-switcher">
+                <button id="lang-sr" onclick="setLanguage('sr')" class="lang-btn active">SR</button>
+                <button id="lang-en" onclick="setLanguage('en')" class="lang-btn">EN</button>
             </div>
         </div>
     </header>
@@ -27,7 +22,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="technical-mark">REV 01 // BLK-001</div>
-            <h1 id="hero-title">ENGINEERED APPAREL</h1>
+            <h1>ENGINEERED APPAREL</h1>
             <p data-i18n="hero_subtitle">LIMITED DROP // EDITION 01</p>
         </div>
     </section>
@@ -51,14 +46,12 @@
                     <span id="modal-gender" class="modal-badge"></span>
                     <h2 id="modal-title"></h2>
                     <p id="modal-price" class="modal-price-tag"></p>
-                    
                     <div class="select-group">
-                        <label data-i18n="select_color">COLOR_SPEC:</label>
+                        <label>COLOR_SPEC:</label>
                         <div id="color-dots" class="color-dots-grid"></div>
                     </div>
-                    
                     <div class="select-group">
-                        <label data-i18n="select_size">SIZE_INDEX:</label>
+                        <label>SIZE_INDEX:</label>
                         <div id="size-options" class="size-btns-grid">
                             <button class="size-btn" onclick="pickSize('S')">S</button>
                             <button class="size-btn" onclick="pickSize('M')">M</button>
@@ -67,8 +60,7 @@
                             <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
                         </div>
                     </div>
-                    
-                    <button class="btn-submit modal-buy-btn" onclick="openFinalForm()" data-i18n="confirm_selection">CONTINUE</button>
+                    <button class="modal-buy-btn" onclick="openFinalForm()">CONTINUE TO SHIPPING</button>
                 </div>
             </div>
         </div>
@@ -76,13 +68,13 @@
 
     <section id="order-section" class="order-section">
         <div class="form-container">
-            <h2 data-i18n="order_title">SHIPPING MANIFEST</h2>
+            <h2 style="margin-bottom:20px; letter-spacing:2px">SHIPPING MANIFEST</h2>
             <form id="checkout-form" action="https://formspree.io/f/xpqqpkvb" method="POST">
-                <input type="text" name="Proizvod" id="selected-product" readonly class="form-input-product">
-                <input type="text" name="Ime" data-i18n-ph="ph_name" placeholder="Name" required class="form-input">
-                <input type="email" name="Email" data-i18n-ph="ph_email" placeholder="Email" required class="form-input">
-                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" placeholder="Phone" required class="form-input">
-                <button type="submit" class="btn-submit" data-i18n="confirm">CONFIRM ORDER</button>
+                <input type="text" name="Proizvod" id="selected-product" readonly class="form-input" style="color:var(--brand-red); font-weight:800">
+                <input type="text" name="Ime" placeholder="Full Name" required class="form-input">
+                <input type="email" name="Email" placeholder="Email Address" required class="form-input">
+                <input type="tel" name="Telefon" placeholder="Phone Number" required class="form-input">
+                <button type="submit" class="btn-submit">CONFIRM ORDER</button>
             </form>
         </div>
     </section>
