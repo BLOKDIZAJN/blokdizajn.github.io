@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body class="industrial-theme">
+<body>
 
     <header class="main-header">
         <div class="header-container">
@@ -24,27 +24,15 @@
         </div>
     </header>
 
-    <section class="hero-container">
-        <div class="hero">
-            <div class="hero-content">
-                <div class="technical-mark">REV 01 // BLK-001</div>
-                <h1 id="hero-title">ENGINEERED APPAREL</h1>
-                <p data-i18n="hero_subtitle">LIMITED DROP // EDITION 01</p>
-                <a href="#shop" class="btn-main" data-i18n="shop_now">ACCESS SHOP</a>
-            </div>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="technical-mark">REV 01 // BLK-001</div>
+            <h1 id="hero-title">ENGINEERED APPAREL</h1>
+            <p data-i18n="hero_subtitle">LIMITED DROP // EDITION 01</p>
         </div>
-    </section>
+    </div>
 
-    <nav class="category-wrapper">
-        <div class="category-bar">
-            <button class="cat-card active" onclick="filterProducts('all', this)" data-i18n="cat_all">SVE</button>
-            <button class="cat-card" onclick="filterProducts('jdm', this)" data-i18n="cat_jdm">JDM</button>
-            <button class="cat-card" onclick="filterProducts('german', this)" data-i18n="cat_german">GERMAN</button>
-            <button class="cat-card" onclick="filterProducts('lifestyle', this)" data-i18n="cat_life">LIFESTYLE</button>
-        </div>
-    </nav>
-
-    <main id="shop" class="content-wrapper">
+    <main class="content-wrapper">
         <div class="product-grid" id="product-container"></div>
     </main>
 
@@ -54,23 +42,18 @@
             <div class="modal-body">
                 <div class="modal-images">
                     <div class="image-track" id="modal-image-track"></div>
-                    <div class="image-nav">
-                        <button onclick="changeSlide(-1)">&#10094;</button>
-                        <button onclick="changeSlide(1)">&#10095;</button>
-                    </div>
                 </div>
                 <div class="modal-details">
-                    <div class="spec-header">
-                        <span id="modal-gender" class="type-label"></span>
-                    </div>
-                    <h2 id="modal-title"></h2>
+                    <span id="modal-gender" style="font-size: 0.7rem; color: var(--brand-red); font-weight: 800;"></span>
+                    <h2 id="modal-title" style="margin: 5px 0;"></h2>
                     <p id="modal-price" class="modal-price-tag"></p>
                     
-                    <div class="select-group">
+                    <div class="select-group" style="margin-top: 20px;">
                         <label data-i18n="select_color">COLOR_SPEC:</label>
                         <div id="color-dots" class="color-dots-grid"></div>
                     </div>
-                    <div class="select-group">
+                    
+                    <div class="select-group" style="margin-top: 20px;">
                         <label data-i18n="select_size">SIZE_INDEX:</label>
                         <div id="size-options" class="size-btns-grid">
                             <button class="size-btn" onclick="pickSize('S')">S</button>
@@ -80,39 +63,25 @@
                             <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
                         </div>
                     </div>
-                    <button class="btn-submit" onclick="openFinalForm()" data-i18n="confirm_selection">CONTINUE</button>
+                    
+                    <button class="btn-submit" onclick="openFinalForm()" style="margin-top: 30px; background: var(--brand-red); color: white; border: none; padding: 15px; cursor: pointer; font-weight: 800; border-radius: 4px;" data-i18n="confirm_selection">CONTINUE</button>
                 </div>
             </div>
         </div>
     </div>
-	
+
     <section id="order-section" class="order-section">
-        <div class="form-container">
-            <div class="form-header">
-                <h2 data-i18n="order_title">SHIPPING MANIFEST</h2>
-            </div>
+        <div class="form-container" style="max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 40px; border: 1px solid var(--border); border-radius: var(--radius);">
+            <h2 data-i18n="order_title" style="margin-bottom: 20px;">SHIPPING MANIFEST</h2>
             <form id="checkout-form" action="https://formspree.io/f/xpqqpkvb" method="POST">
-                <input type="text" name="Proizvod" id="selected-product" readonly class="readonly-input">
-                <input type="text" name="Ime" data-i18n-ph="ph_name" required>
-                <input type="email" name="Email" data-i18n-ph="ph_email" required>
-                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" required>
-                <input type="text" name="Adresa" data-i18n-ph="ph_address" placeholder="Ulica i broj" required>
-                <div class="form-row">
-                    <input type="text" name="Grad" data-i18n-ph="ph_city" placeholder="Grad / Mesto" required style="flex: 2;">
-                    <input type="text" name="Postanski_Broj" data-i18n-ph="ph_zip" required style="flex: 1;">
-                </div>
-                <button type="submit" class="btn-submit" data-i18n="confirm">CONFIRM ORDER</button>
+                <input type="text" name="Proizvod" id="selected-product" readonly style="width: 100%; background: transparent; border: 1px solid var(--border); color: var(--brand-red); padding: 10px; margin-bottom: 10px; font-weight: 800;">
+                <input type="text" name="Ime" data-i18n-ph="ph_name" placeholder="Name" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
+                <input type="email" name="Email" data-i18n-ph="ph_email" placeholder="Email" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
+                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" placeholder="Phone" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
+                <button type="submit" style="width: 100%; padding: 15px; background: var(--brand-red); color: #fff; border: none; font-weight: 800; cursor: pointer;" data-i18n="confirm">CONFIRM ORDER</button>
             </form>
         </div>
     </section>
-
-    <footer class="main-footer">
-        <img src="logo.png" class="footer-logo">
-        <div class="footer-specs">
-            <p>© 2026 BLOKDIZAJN. Industrial Standards.</p>
-            <p>LOC: 44.7866° N, 20.4489° E // BELGRADE</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
