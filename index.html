@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOKDIZAJN | Industrial Automotive Wear</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="industrial-theme">
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-wrapper" onclick="resetPage()">
+                <img src="logo.png" alt="BLOKDIZAJN" class="nav-logo">
+            </div>
+            <div class="header-right">
+                <div class="lang-switcher">
+                    <button id="lang-sr" onclick="setLanguage('sr')" class="lang-btn">SR</button>
+                    <button id="lang-en" onclick="setLanguage('en')" class="lang-btn">EN</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-container">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="technical-mark">REV 01 // BLK-001</div>
+                <h1 id="hero-title">ENGINEERED APPAREL</h1>
+                <p data-i18n="hero_subtitle">Limited Drop // Edition 01</p>
+                <a href="#shop" class="btn-main" data-i18n="shop_now">ACCESS SHOP</a>
+            </div>
+        </div>
+    </section>
+
+    <nav class="category-wrapper">
+        <div class="category-bar">
+            <button class="cat-card active" onclick="filterProducts('all', this)" data-i18n="cat_all">SVE</button>
+            <button class="cat-card" onclick="filterProducts('jdm', this)" data-i18n="cat_jdm">JDM</button>
+            <button class="cat-card" onclick="filterProducts('german', this)" data-i18n="cat_german">GERMAN</button>
+            <button class="cat-card" onclick="filterProducts('lifestyle', this)" data-i18n="cat_life">LIFESTYLE</button>
+        </div>
+    </nav>
+
+    <main id="shop" class="content-wrapper">
+        <div class="product-grid" id="product-container"></div>
+    </main>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <div class="modal-images">
+                    <div class="image-track" id="modal-image-track"></div>
+                    <div class="image-nav">
+                        <button onclick="changeSlide(-1)">&#10094;</button>
+                        <button onclick="changeSlide(1)">&#10095;</button>
+                    </div>
+                </div>
+                <div class="modal-details">
+                    <div class="spec-header">
+                        <span id="modal-gender" class="type-label"></span>
+                    </div>
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-price" class="modal-price-tag"></p>
+                    
+                    <div class="select-group">
+                        <label data-i18n="select_color">COLOR_SPEC:</label>
+                        <div id="color-dots" class="color-dots-grid"></div>
+                    </div>
+                    <div class="select-group">
+                        <label data-i18n="select_size">SIZE_INDEX:</label>
+                        <div id="size-options" class="size-btns-grid">
+                            <button class="size-btn" onclick="pickSize('S')">S</button>
+                            <button class="size-btn" onclick="pickSize('M')">M</button>
+                            <button class="size-btn" onclick="pickSize('L')">L</button>
+                            <button class="size-btn" onclick="pickSize('XL')">XL</button>
+                            <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
+                        </div>
+                    </div>
+                    <button class="btn-submit" onclick="openFinalForm()" data-i18n="confirm_selection">CONTINUE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <section id="order-section" class="order-section">
+        <div class="form-container">
+            <div class="form-header">
+                <h2 data-i18n="order_title">SHIPPING MANIFEST</h2>
+            </div>
+            <form id="checkout-form" action="https://formspree.io/f/xpqqpkvb" method="POST">
+                <input type="text" name="Proizvod" id="selected-product" readonly class="readonly-input">
+                <input type="text" name="Ime" data-i18n-ph="ph_name" required>
+                <input type="email" name="Email" data-i18n-ph="ph_email" required>
+                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" required>
+                <input type="text" name="Adresa" data-i18n-ph="ph_address" placeholder="Ulica i broj" required>
+                <div class="form-row">
+                    <input type="text" name="Grad" data-i18n-ph="ph_city" placeholder="Grad / Mesto" required style="flex: 2;">
+                    <input type="text" name="Postanski_Broj" data-i18n-ph="ph_zip" required style="flex: 1;">
+                </div>
+                <button type="submit" class="btn-submit" data-i18n="confirm">CONFIRM ORDER</button>
+            </form>
+        </div>
+    </section>
+
+
+    <footer class="main-footer">
+        <img src="logo.png" class="footer-logo">
+        <div class="footer-specs">
+            <p>© 2026 BLOKDIZAJN. Industrial Standards.</p>
+            <p>LOC: 44.7866° N, 20.4489° E // BELGRADE</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
