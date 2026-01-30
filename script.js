@@ -1,6 +1,26 @@
 const translations = {
-    sr: { hero_subtitle: "LIMITIRANA SERIJA // EDICIJA 01", select_color: "BOJA:", select_size: "VELIČINA:", confirm_selection: "DALJE", ph_name: "Ime i Prezime", ph_email: "Email adresa", ph_phone: "Telefon" },
-    en: { hero_subtitle: "LIMITED DROP // EDITION 01", select_color: "COLOR_SPEC:", select_size: "SIZE_INDEX:", confirm_selection: "CONTINUE", ph_name: "Full Name", ph_email: "Email address", ph_phone: "Phone Number" }
+    sr: { 
+        hero_subtitle: "LIMITIRANA SERIJA // EDICIJA 01", 
+        select_color: "BOJA:", 
+        select_size: "VELIČINA:", 
+        confirm_selection: "DALJE", 
+        order_title: "MANIFEST DOSTAVE",
+        confirm: "POTVRDI NARUDŽBINU",
+        ph_name: "Ime i Prezime", 
+        ph_email: "Email adresa", 
+        ph_phone: "Telefon" 
+    },
+    en: { 
+        hero_subtitle: "LIMITED DROP // EDITION 01", 
+        select_color: "COLOR_SPEC:", 
+        select_size: "SIZE_INDEX:", 
+        confirm_selection: "CONTINUE", 
+        order_title: "SHIPPING MANIFEST",
+        confirm: "CONFIRM ORDER",
+        ph_name: "Full Name", 
+        ph_email: "Email Address", 
+        ph_phone: "Phone Number" 
+    }
 };
 
 let allProducts = [];
@@ -13,15 +33,13 @@ let currentSlide = 0;
 document.addEventListener('DOMContentLoaded', fetchProducts);
 
 async function fetchProducts() {
-    try {
-        const response = await fetch('products.txt');
-        const text = await response.text();
-        allProducts = text.split('\n').filter(l => l.trim()).map(line => {
-            const p = line.split('|').map(x => x.trim());
-            return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], gender:p[7], colors:p[8], numImages:parseInt(p[9]) };
-        });
-        render();
-    } catch (e) { console.error("Load failed", e); }
+    const response = await fetch('products.txt');
+    const text = await response.text();
+    allProducts = text.split('\n').filter(l => l.trim()).map(line => {
+        const p = line.split('|').map(x => x.trim());
+        return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], colors:p[8], numImages:parseInt(p[9]) };
+    });
+    render();
 }
 
 function render() {
@@ -32,14 +50,31 @@ function render() {
         const card = document.createElement('div');
         card.className = 'product-item';
         card.onclick = () => openModal(p.folder);
-        card.innerHTML = `
-            <img src="products/${p.folder}/${firstColor}_0.png" onerror="this.src='logo.png'">
-            <div style="margin-top:15px">
-                <h3 style="font-size:1rem">${currentLang==='sr' ? p.nSr : p.nEn}</h3>
-                <p style="color:var(--brand-red); font-weight:800; margin-top:5px">${p.price}</p>
-            </div>`;
+        card.innerHTML = `<img src="products/${p.folder}/${firstColor}_0.png" style="width:100%">
+                          <h3 style="margin-top:10px">${currentLang==='sr' ? p.nSr : p.nEn}</h3>
+                          <p style="color:var(--brand-red); font-weight:800">${p.price}</p>`;
         container.appendChild(card);
     });
+}
+
+function setLanguage(l) {
+    currentLang = l;
+    // Update button visual state
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${l}`));
+    
+    // Update static text content
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[l][key]) el.textContent = translations[l][key];
+    });
+
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (translations[l][key]) el.placeholder = translations[l][key];
+    });
+
+    render(); // Re-render products to update names
 }
 
 function openModal(folder) {
@@ -50,7 +85,6 @@ function openModal(folder) {
     
     document.getElementById('modal-title').textContent = currentLang==='sr' ? activeProduct.nSr : activeProduct.nEn;
     document.getElementById('modal-price').textContent = activeProduct.price;
-    document.getElementById('modal-gender').textContent = activeProduct.gender.toUpperCase();
     
     updateModalImages();
     updateColorDots();
@@ -67,11 +101,7 @@ function updateColorDots() {
         const dot = document.createElement('div');
         dot.className = `color-dot ${color === selectedColor ? 'active' : ''}`;
         dot.style.backgroundColor = color === 'sand' ? '#c2b280' : color;
-        dot.onclick = (e) => { 
-            selectedColor = color; 
-            updateColorDots(); 
-            updateModalImages(); 
-        };
+        dot.onclick = () => { selectedColor = color; updateColorDots(); updateModalImages(); };
         container.appendChild(dot);
     });
 }
@@ -98,10 +128,10 @@ function pickSize(s) {
 }
 
 function openFinalForm() {
-    if(!selectedSize) return alert(currentLang==='sr' ? 'Izaberite veličinu' : 'Please select size');
+    if(!selectedSize) return alert(currentLang === 'sr' ? 'Izaberite veličinu' : 'Please select size');
     closeModal();
     const section = document.getElementById('order-section');
-    section.style.display = 'block'; 
+    section.style.display = 'block';
     document.getElementById('selected-product').value = `${activeProduct.nEn} [${selectedColor.toUpperCase()} / ${selectedSize}]`;
     section.scrollIntoView({ behavior: 'smooth' });
 }
@@ -109,10 +139,4 @@ function openFinalForm() {
 function closeModal() { 
     document.getElementById('product-modal').style.display = 'none'; 
     document.body.style.overflow = 'auto'; 
-}
-
-function setLanguage(l) {
-    currentLang = l;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${l}`));
-    render();
 }

@@ -27,9 +27,7 @@
         </div>
     </section>
 
-    <main class="content-wrapper">
-        <div class="product-grid" id="product-container"></div>
-    </main>
+    <div class="product-grid" id="product-container"></div>
 
     <div id="product-modal" class="modal">
         <div class="modal-content">
@@ -38,29 +36,26 @@
                 <div class="modal-images">
                     <div class="image-track" id="modal-image-track"></div>
                     <div class="image-nav">
-                        <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
-                        <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+                        <button class="nav-btn" onclick="changeSlide(-1)">&#10094;</button>
+                        <button class="nav-btn" onclick="changeSlide(1)">&#10095;</button>
                     </div>
                 </div>
                 <div class="modal-details">
-                    <span id="modal-gender" class="modal-badge"></span>
                     <h2 id="modal-title"></h2>
                     <p id="modal-price" class="modal-price-tag"></p>
-                    <div class="select-group">
-                        <label>COLOR_SPEC:</label>
-                        <div id="color-dots" class="color-dots-grid"></div>
+                    
+                    <label data-i18n="select_color">BOJA:</label>
+                    <div id="color-dots" class="color-dots-grid"></div>
+
+                    <label data-i18n="select_size">VELIČINA:</label>
+                    <div class="size-btns-grid">
+                        <button class="size-btn" onclick="pickSize('S')">S</button>
+                        <button class="size-btn" onclick="pickSize('M')">M</button>
+                        <button class="size-btn" onclick="pickSize('L')">L</button>
+                        <button class="size-btn" onclick="pickSize('XL')">XL</button>
                     </div>
-                    <div class="select-group">
-                        <label>SIZE_INDEX:</label>
-                        <div id="size-options" class="size-btns-grid">
-                            <button class="size-btn" onclick="pickSize('S')">S</button>
-                            <button class="size-btn" onclick="pickSize('M')">M</button>
-                            <button class="size-btn" onclick="pickSize('L')">L</button>
-                            <button class="size-btn" onclick="pickSize('XL')">XL</button>
-                            <button class="size-btn" onclick="pickSize('XXL')">XXL</button>
-                        </div>
-                    </div>
-                    <button class="modal-buy-btn" onclick="openFinalForm()">CONTINUE TO SHIPPING</button>
+
+                    <button class="btn-submit" style="margin-top:20px" onclick="openFinalForm()" data-i18n="confirm_selection">DALJE</button>
                 </div>
             </div>
         </div>
@@ -68,13 +63,13 @@
 
     <section id="order-section" class="order-section">
         <div class="form-container">
-            <h2 style="margin-bottom:20px; letter-spacing:2px">SHIPPING MANIFEST</h2>
+            <h2 data-i18n="order_title">MANIFEST DOSTAVE</h2>
             <form id="checkout-form" action="https://formspree.io/f/xpqqpkvb" method="POST">
-                <input type="text" name="Proizvod" id="selected-product" readonly class="form-input" style="color:var(--brand-red); font-weight:800">
-                <input type="text" name="Ime" placeholder="Full Name" required class="form-input">
-                <input type="email" name="Email" placeholder="Email Address" required class="form-input">
-                <input type="tel" name="Telefon" placeholder="Phone Number" required class="form-input">
-                <button type="submit" class="btn-submit">CONFIRM ORDER</button>
+                <input type="text" name="Proizvod" id="selected-product" readonly class="form-input" style="border-color:var(--brand-red); color:var(--brand-red)">
+                <input type="text" name="Ime" data-i18n-ph="ph_name" placeholder="Ime" required class="form-input">
+                <input type="email" name="Email" data-i18n-ph="ph_email" placeholder="Email" required class="form-input">
+                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" placeholder="Telefon" required class="form-input">
+                <button type="submit" class="btn-submit" data-i18n="confirm">POTVRDI NARUDŽBINU</button>
             </form>
         </div>
     </section>
