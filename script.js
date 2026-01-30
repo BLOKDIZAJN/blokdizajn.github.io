@@ -21,7 +21,7 @@ async function fetchProducts() {
             const p = line.split('|').map(x => x.trim());
             return { 
                 nSr: p[0], nEn: p[1], folder: p[2], price: p[3], 
-                category: p[5].toLowerCase(), // Using the index where 'jdm' is found
+                category: p[5].toLowerCase(), // Index [5] is where 'jdm' is found
                 colors: p[8], numImages: parseInt(p[9]) 
             };
         });
@@ -50,14 +50,13 @@ function render() {
 }
 
 function filterByCat(cat, btn) {
-    // Update button visual state
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    // Filter data
     if (cat === 'all') {
         filteredProducts = allProducts;
     } else {
+        // Replaces underscores in categories like 'eastern_bloc' to match 'eastern bloc' text
         filteredProducts = allProducts.filter(p => p.category === cat.replace('_', ' '));
     }
     render();
