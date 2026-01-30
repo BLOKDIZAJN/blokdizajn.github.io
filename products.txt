@@ -1,1 +1,2 @@
-Yugo Duks | Yugo Hoodie | yugo-hoodie | 4500 RSD | hoodie | jdm | true | uni | sand,gray | 4
+Yugo Duks | Yugo Hoodie | yugo-hoodie | 4500 RSD | hoodie | eastern_bloc | true | uni | sand,gray | 4
+Yugo Majica | Yugo t-shirt | yugo-shirt | 2500 RSD | tshirt | eastern_bloc | true | uni | sand,gray | 4
