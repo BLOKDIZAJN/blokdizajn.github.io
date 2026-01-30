@@ -56,8 +56,9 @@ function filterByCat(cat, btn) {
     if (cat === 'all') {
         filteredProducts = allProducts;
     } else {
-        // Replaces underscores in categories like 'eastern_bloc' to match 'eastern bloc' text
-        filteredProducts = allProducts.filter(p => p.category === cat.replace('_', ' '));
+        // REMOVED: .replace('_', ' ') 
+        // We want to match 'eastern_bloc' exactly as it is in products.txt
+        filteredProducts = allProducts.filter(p => p.category === cat);
     }
     render();
 }
