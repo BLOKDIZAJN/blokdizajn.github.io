@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="industrial-theme">
 
     <header class="main-header">
         <div class="header-container">
@@ -42,18 +42,22 @@
             <div class="modal-body">
                 <div class="modal-images">
                     <div class="image-track" id="modal-image-track"></div>
+                    <div class="image-nav">
+                        <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                        <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+                    </div>
                 </div>
                 <div class="modal-details">
-                    <span id="modal-gender" style="font-size: 0.7rem; color: var(--brand-red); font-weight: 800;"></span>
-                    <h2 id="modal-title" style="margin: 5px 0;"></h2>
+                    <span id="modal-gender" class="modal-badge"></span>
+                    <h2 id="modal-title"></h2>
                     <p id="modal-price" class="modal-price-tag"></p>
                     
-                    <div class="select-group" style="margin-top: 20px;">
+                    <div class="select-group">
                         <label data-i18n="select_color">COLOR_SPEC:</label>
                         <div id="color-dots" class="color-dots-grid"></div>
                     </div>
                     
-                    <div class="select-group" style="margin-top: 20px;">
+                    <div class="select-group">
                         <label data-i18n="select_size">SIZE_INDEX:</label>
                         <div id="size-options" class="size-btns-grid">
                             <button class="size-btn" onclick="pickSize('S')">S</button>
@@ -64,21 +68,21 @@
                         </div>
                     </div>
                     
-                    <button class="btn-submit" onclick="openFinalForm()" style="margin-top: 30px; background: var(--brand-red); color: white; border: none; padding: 15px; cursor: pointer; font-weight: 800; border-radius: 4px;" data-i18n="confirm_selection">CONTINUE</button>
+                    <button class="btn-submit modal-buy-btn" onclick="openFinalForm()" data-i18n="confirm_selection">CONTINUE</button>
                 </div>
             </div>
         </div>
     </div>
 
     <section id="order-section" class="order-section">
-        <div class="form-container" style="max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 40px; border: 1px solid var(--border); border-radius: var(--radius);">
-            <h2 data-i18n="order_title" style="margin-bottom: 20px;">SHIPPING MANIFEST</h2>
+        <div class="form-container">
+            <h2 data-i18n="order_title">SHIPPING MANIFEST</h2>
             <form id="checkout-form" action="https://formspree.io/f/xpqqpkvb" method="POST">
-                <input type="text" name="Proizvod" id="selected-product" readonly style="width: 100%; background: transparent; border: 1px solid var(--border); color: var(--brand-red); padding: 10px; margin-bottom: 10px; font-weight: 800;">
-                <input type="text" name="Ime" data-i18n-ph="ph_name" placeholder="Name" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
-                <input type="email" name="Email" data-i18n-ph="ph_email" placeholder="Email" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
-                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" placeholder="Phone" required style="width: 100%; padding: 10px; margin-bottom: 10px; background: #000; border: 1px solid var(--border); color: #fff;">
-                <button type="submit" style="width: 100%; padding: 15px; background: var(--brand-red); color: #fff; border: none; font-weight: 800; cursor: pointer;" data-i18n="confirm">CONFIRM ORDER</button>
+                <input type="text" name="Proizvod" id="selected-product" readonly class="form-input-product">
+                <input type="text" name="Ime" data-i18n-ph="ph_name" placeholder="Name" required class="form-input">
+                <input type="email" name="Email" data-i18n-ph="ph_email" placeholder="Email" required class="form-input">
+                <input type="tel" name="Telefon" data-i18n-ph="ph_phone" placeholder="Phone" required class="form-input">
+                <button type="submit" class="btn-submit" data-i18n="confirm">CONFIRM ORDER</button>
             </form>
         </div>
     </section>
