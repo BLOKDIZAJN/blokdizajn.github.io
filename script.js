@@ -1,31 +1,10 @@
 const translations = {
-    sr: { 
-        hero_subtitle: "LIMITIRANA SERIJA // EDICIJA 01", 
-        view_more: "PRIKAŽI VIŠE",
-        select_color: "BOJA:", 
-        select_size: "VELIČINA:", 
-        confirm_selection: "DALJE", 
-        order_title: "MANIFEST DOSTAVE",
-        confirm: "POTVRDI NARUDŽBINU",
-        ph_name: "Ime i Prezime", 
-        ph_email: "Email adresa", 
-        ph_phone: "Telefon" 
-    },
-    en: { 
-        hero_subtitle: "LIMITED DROP // EDITION 01", 
-        view_more: "VIEW DETAILS",
-        select_color: "COLOR:", 
-        select_size: "SIZE:", 
-        confirm_selection: "CONTINUE", 
-        order_title: "SHIPPING MANIFEST",
-        confirm: "CONFIRM ORDER",
-        ph_name: "Full Name", 
-        ph_email: "Email Address", 
-        ph_phone: "Phone Number" 
-    }
+    sr: { hero_subtitle: "LIMITIRANA SERIJA // EDICIJA 01", view_more: "PRIKAŽI VIŠE", cat_all: "SVE", select_color: "BOJA:", select_size: "VELIČINA:", confirm_selection: "DALJE", order_title: "MANIFEST DOSTAVE", confirm: "POTVRDI NARUDŽBINU", ph_name: "Ime i Prezime", ph_email: "Email adresa", ph_phone: "Telefon" },
+    en: { hero_subtitle: "LIMITED DROP // EDITION 01", view_more: "VIEW DETAILS", cat_all: "ALL UNITS", select_color: "COLOR:", select_size: "SIZE:", confirm_selection: "CONTINUE", order_title: "SHIPPING MANIFEST", confirm: "CONFIRM ORDER", ph_name: "Full Name", ph_email: "Email Address", ph_phone: "Phone Number" }
 };
 
 let allProducts = [];
+let filteredProducts = [];
 let currentLang = 'sr';
 let activeProduct = null;
 let selectedColor = '';
@@ -40,28 +19,27 @@ async function fetchProducts() {
         const text = await response.text();
         allProducts = text.split('\n').filter(l => l.trim()).map(line => {
             const p = line.split('|').map(x => x.trim());
-            return { nSr:p[0], nEn:p[1], folder:p[2], price:p[3], colors:p[8], numImages:parseInt(p[9]) };
+            return { 
+                nSr: p[0], nEn: p[1], folder: p[2], price: p[3], 
+                category: p[5].toLowerCase(), // Using the index where 'jdm' is found
+                colors: p[8], numImages: parseInt(p[9]) 
+            };
         });
+        filteredProducts = allProducts;
         render();
-    } catch (e) {
-        console.error("Could not load products.txt", e);
-    }
+    } catch (e) { console.error("Error loading products", e); }
 }
 
 function render() {
     const container = document.getElementById('product-container');
     container.innerHTML = '';
-    allProducts.forEach(p => {
+    filteredProducts.forEach(p => {
         const firstColor = p.colors.split(',')[0].trim().toLowerCase();
         const card = document.createElement('div');
         card.className = 'product-item';
         card.onclick = () => openModal(p.folder);
-        
-        // This is where the overlay is injected
         card.innerHTML = `
-            <div class="product-overlay">
-                <span class="cta-text">${translations[currentLang].view_more}</span>
-            </div>
+            <div class="product-overlay"><span class="cta-text">${translations[currentLang].view_more}</span></div>
             <img src="products/${p.folder}/${firstColor}_0.png">
             <div class="product-info">
                 <h3>${currentLang === 'sr' ? p.nSr : p.nEn}</h3>
@@ -71,21 +49,32 @@ function render() {
     });
 }
 
+function filterByCat(cat, btn) {
+    // Update button visual state
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Filter data
+    if (cat === 'all') {
+        filteredProducts = allProducts;
+    } else {
+        filteredProducts = allProducts.filter(p => p.category === cat.replace('_', ' '));
+    }
+    render();
+}
+
 function setLanguage(l) {
     currentLang = l;
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `lang-${l}`));
-    
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[l][key]) el.textContent = translations[l][key];
     });
-
     document.querySelectorAll('[data-i18n-ph]').forEach(el => {
         const key = el.getAttribute('data-i18n-ph');
         if (translations[l][key]) el.placeholder = translations[l][key];
     });
-
-    render(); 
+    render();
 }
 
 function openModal(folder) {
@@ -93,13 +82,10 @@ function openModal(folder) {
     selectedColor = activeProduct.colors.split(',')[0].trim().toLowerCase();
     selectedSize = '';
     currentSlide = 0;
-    
     document.getElementById('modal-title').textContent = currentLang === 'sr' ? activeProduct.nSr : activeProduct.nEn;
     document.getElementById('modal-price').textContent = activeProduct.price;
-    
     updateModalImages();
     updateColorDots();
-    
     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('product-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -113,12 +99,7 @@ function updateColorDots() {
         const dot = document.createElement('div');
         dot.className = `color-dot ${color === selectedColor ? 'active' : ''}`;
         dot.style.backgroundColor = color === 'sand' ? '#c2b280' : (color === 'white' ? '#fff' : color);
-        dot.onclick = (e) => { 
-            e.stopPropagation(); 
-            selectedColor = color; 
-            updateColorDots(); 
-            updateModalImages(); 
-        };
+        dot.onclick = (e) => { e.stopPropagation(); selectedColor = color; updateColorDots(); updateModalImages(); };
         container.appendChild(dot);
     });
 }
